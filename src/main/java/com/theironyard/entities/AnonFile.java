@@ -20,12 +20,21 @@ public class AnonFile {
     @Column(nullable = false)
     String realFileName;
 
+    @Column
+    boolean isPerm = false;
+
     public AnonFile() {
     }
 
     public AnonFile(String originalFileName, String realFileName) {
         this.originalFileName = originalFileName;
         this.realFileName = realFileName;
+    }
+
+    public AnonFile(String originalFileName, String realFileName, boolean isPerm) {
+        this.originalFileName = originalFileName;
+        this.realFileName = realFileName;
+        this.isPerm = isPerm;
     }
 
     public Integer getId() {
@@ -50,6 +59,14 @@ public class AnonFile {
 
     public void setRealFileName(String realFileName) {
         this.realFileName = realFileName;
+    }
+
+    public boolean isPerm() {
+        return isPerm;
+    }
+
+    public void setPerm(boolean perm) {
+        isPerm = perm;
     }
 }
 

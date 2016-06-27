@@ -12,4 +12,8 @@ public interface AnonFileRepository extends CrudRepository<AnonFile, Integer> {
 
     @Query("SELECT MIN(id) FROM AnonFile")
     int findMinId();
+
+    @Query("SELECT MIN(id) FROM AnonFile WHERE isPerm = false")
+    int findMinNonPermId();
+
 }

@@ -33,7 +33,7 @@ public class AnonFileController {
     }
 
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
-    public String upload(MultipartFile file, Integer id) throws IOException {
+    public String upload(MultipartFile file, Integer id, boolean isPerm) throws IOException {
         if (files.count() <= 4) {
 
             File dir = new File("public/files");
@@ -43,11 +43,12 @@ public class AnonFileController {
             FileOutputStream fos = new FileOutputStream(uploadedFile);
             fos.write(file.getBytes());
 
-            AnonFile anonFile = new AnonFile(file.getOriginalFilename(), uploadedFile.getName());
+            AnonFile anonFile = new AnonFile(file.getOriginalFilename(), uploadedFile.getName(), isPerm);
             files.save(anonFile);
         }
         else {
-            files.delete(files.findMinId());
+
+            files.delete(files.findMinNonPermId());
 
             File dir = new File("public/files");
             dir.mkdirs();
@@ -56,10 +57,9 @@ public class AnonFileController {
             FileOutputStream fos = new FileOutputStream(uploadedFile);
             fos.write(file.getBytes());
 
-            AnonFile anonFile = new AnonFile(file.getOriginalFilename(), uploadedFile.getName());
+            AnonFile anonFile = new AnonFile(file.getOriginalFilename(), uploadedFile.getName(), isPerm);
             files.save(anonFile);
         }
         return "redirect:/";
-
     }
 }
