@@ -8,8 +8,15 @@
 <form action="/upload" method="post" enctype="multipart/form-data">
     <input type="file" name="file"/>
     <input type="checkbox" name="isPerm" />Make Permanent?
-    <input type="text" name="comment" value="comment" placeholder="Comments?"/>
+    <input type="text"  name="comment" placeholder="Comments?"/>
+    <input type="password" name="deletionPassword" placeholder="Deletion Password"/>
     <button type="submit">Upload</button>
+</form>
+To Delete Item input id# and Deletion Password
+<form action="/delete" method="post">
+    <input type="text" placeholder="id #" name="id"/>
+    <input type="password" placeholder="deletion password" name="deletionPassword"/>
+    <button type="submit">Delete</button>
 </form>
 <div id="list"> </div>
 

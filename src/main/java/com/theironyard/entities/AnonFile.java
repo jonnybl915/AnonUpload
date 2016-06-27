@@ -26,6 +26,9 @@ public class AnonFile {
     @Column
     String comment;
 
+    @Column
+    String deletionPassword;
+
     public AnonFile() {
     }
 
@@ -45,6 +48,14 @@ public class AnonFile {
         this.realFileName = realFileName;
         this.isPerm = isPerm;
         this.comment = comment;
+    }
+
+    public AnonFile(String originalFileName, String realFileName, boolean isPerm, String comment, String deletionPassword) {
+        this.originalFileName = originalFileName;
+        this.realFileName = realFileName;
+        this.isPerm = isPerm;
+        this.comment = comment;
+        this.deletionPassword = deletionPassword;
     }
 
     public Integer getId() {
@@ -85,6 +96,14 @@ public class AnonFile {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getDeletionPassword() {
+        return deletionPassword;
+    }
+
+    public void setDeletionPassword(String deletionPassword) {
+        this.deletionPassword = deletionPassword;
     }
 }
 

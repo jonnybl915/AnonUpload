@@ -1,5 +1,6 @@
 package com.theironyard.controllers;
 
+import com.theironyard.PasswordStorage;
 import com.theironyard.entities.AnonFile;
 import com.theironyard.services.AnonFileRepository;
 
@@ -33,7 +34,7 @@ public class AnonFileController {
     }
 
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
-    public String upload(MultipartFile file, Integer id, boolean isPerm, String comment) throws IOException {
+    public String upload(MultipartFile file, Integer id, boolean isPerm, String comment, String deletionPassword) throws IOException, PasswordStorage.CannotPerformOperationException {
         if (files.countByIsPermFalse() <= 4) {
 
             File dir = new File("public/files");
@@ -43,7 +44,7 @@ public class AnonFileController {
             FileOutputStream fos = new FileOutputStream(uploadedFile);
             fos.write(file.getBytes());
 
-            AnonFile anonFile = new AnonFile(file.getOriginalFilename(), uploadedFile.getName(), isPerm, comment);
+            AnonFile anonFile = new AnonFile(file.getOriginalFilename(), uploadedFile.getName(), isPerm, comment, PasswordStorage.createHash(deletionPassword));
             files.save(anonFile);
         }
         else {
@@ -57,10 +58,23 @@ public class AnonFileController {
             FileOutputStream fos = new FileOutputStream(uploadedFile);
             fos.write(file.getBytes());
 
-            AnonFile anonFile = new AnonFile(file.getOriginalFilename(), uploadedFile.getName(), isPerm, comment);
+            AnonFile anonFile = new AnonFile(file.getOriginalFilename(), uploadedFile.getName(), isPerm, comment, PasswordStorage.createHash(deletionPassword));
             files.save(anonFile);
         }
         return "redirect:/";
 
     }
+    @RequestMapping(path = "/delete", method = RequestMethod.POST)
+        public String deleteUpload(int id, String deletionPassword) throws Exception {
+        AnonFile anonFile = files.findOne(id);
+        if (!PasswordStorage.verifyPassword(deletionPassword, anonFile.getDeletionPassword())) {
+            throw new Exception("Wrong password");
+        }
+        else {
+            files.delete(id);
+        }
+
+        return "redirect:/";
+    }
+
 }
