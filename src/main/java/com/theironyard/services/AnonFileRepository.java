@@ -10,9 +10,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface AnonFileRepository extends CrudRepository<AnonFile, Integer> {
     public int countByIsPermFalse();
 
-    @Query("SELECT MIN(id) FROM AnonFile")
-    int findMinId();
-
     @Query("SELECT MIN(id) FROM AnonFile WHERE isPerm = false")
     int findMinNonPermId();
 

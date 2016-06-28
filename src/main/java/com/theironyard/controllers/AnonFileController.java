@@ -48,6 +48,9 @@ public class AnonFileController {
             files.save(anonFile);
         }
         else {
+            AnonFile fileToDelete = files.findOne(files.findMinNonPermId());  //creating an object into which we insert the item(file) to delete
+            File fileOnDisk = new File("public/files/" + fileToDelete.getRealFileName());
+            fileOnDisk.delete(); //is highlighted bc we are not capturing the return value that that indicates the success of the deletion
 
             files.delete(files.findMinNonPermId());
 
