@@ -35,7 +35,7 @@ public class AnonFileController {
 
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
     public String upload(MultipartFile file, Integer id, boolean isPerm, String comment, String deletionPassword) throws IOException, PasswordStorage.CannotPerformOperationException {
-        if (files.countByIsPermFalse() <= 4) {
+        if (files.countByIsPermFalse() <= 4) { //***************REFACTOR INTO ONE UPLOAD PORTION
 
             File dir = new File("public/files");
             dir.mkdirs();
